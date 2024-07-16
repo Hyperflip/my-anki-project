@@ -4,28 +4,43 @@ import './services/AnkiService';
 import GenericButton from "./components/GenericButton";
 import AnkiDecks from "./components/AnkiDecks";
 import Loading from "./components/Loading";
+import DeckCards from "./components/DeckCards";
+import Dashboard from "./components/Dashboard";
 
 function App() {
-    const [doReload, setDoReload] = useState(false);
-    const handleClick = () => {
-        setDoReload(true);
-    };
+    const [doReload, setDoReload]: [boolean, any] = useState(false);
+    const [selectedDeckName, setSelectedDeckName]: [string | null, any] = useState(null);
 
-    return (
-        <div>
-            <header>
-                <h2>
-                    Hello World
-                </h2>
-            </header>
+    function handleDoReload(val: boolean) {
+        setDoReload(val);
+    }
 
-            <GenericButton text="Load Anki" onClick={handleClick}/>
+    function handleSelectDeckName(deckName: string) {
+        setSelectedDeckName(deckName);
+    }
 
-            {doReload && <Loading />}
-            <AnkiDecks doReload={doReload} setDoReload={setDoReload}/>
+    if (selectedDeckName == null) {
+        return (
+            <div>
+                <Dashboard/>
 
-        </div>
-    );
+                <GenericButton text="Load Anki" onClick={() => handleDoReload(true)}/>
+
+                {doReload && <Loading />}
+                <AnkiDecks doReload={doReload}
+                           handleDoReload={handleDoReload}
+                           handleSelectDeckName={handleSelectDeckName}/>
+            </div>
+        );
+    } else {
+        return (
+            <div>
+                <Dashboard/>
+
+                <DeckCards deckName={selectedDeckName}></DeckCards>
+            </div>
+        );
+    }
 }
 
 export default App;
