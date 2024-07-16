@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import * as AnkiService from "../services/AnkiService";
-import GenericButton from "./GenericButton";
-import './AnkiDecks.css';
+import './DeckSelection.css';
+import ButtonText from "./ButtonText";
 
-export default function AnkiDecks({ doReload, handleDoReload, handleSelectDeckName }: { doReload: boolean, handleDoReload: (val: boolean) => void, handleSelectDeckName: (val: string) => void }) {
+export default function DeckSelection({ doReload, handleDoReload, handleSelectDeckName }: { doReload: boolean, handleDoReload: (val: boolean) => void, handleSelectDeckName: (val: string) => void }) {
     const [deckNames, setDeckNames]: [string[], any] = useState([]);
 
     useEffect(() => {
@@ -26,8 +26,8 @@ export default function AnkiDecks({ doReload, handleDoReload, handleSelectDeckNa
         <div className="anki-decks">
             {
                 deckNames.map((name) =>
-                    <li key={name}>
-                        <GenericButton text={name} onClick={() => handleSelectDeckName(name)}/>
+                    <li key={name} className={"deck-listing"}>
+                        <ButtonText text={name} onClick={() => handleSelectDeckName(name)}/>
                     </li>
                 )
             }

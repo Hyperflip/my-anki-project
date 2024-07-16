@@ -3,3 +3,7 @@
     max-width: 400px;
     overflow-y: scroll;
 }
+
+.deck-listing {
+    list-style: none;
+}

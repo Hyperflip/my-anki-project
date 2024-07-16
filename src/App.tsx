@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import './App.css';
 import './services/AnkiService';
-import GenericButton from "./components/GenericButton";
-import AnkiDecks from "./components/AnkiDecks";
+import ButtonPrimary from "./components/ButtonPrimary";
+import DeckSelection from "./components/DeckSelection";
 import Loading from "./components/Loading";
-import DeckCards from "./components/DeckCards";
+import Deck from "./components/Deck";
 import Dashboard from "./components/Dashboard";
 
 function App() {
@@ -24,12 +24,12 @@ function App() {
             <div>
                 <Dashboard/>
 
-                <GenericButton text="Load Anki" onClick={() => handleDoReload(true)}/>
+                <ButtonPrimary text="Load Anki" onClick={() => handleDoReload(true)}/>
 
                 {doReload && <Loading />}
-                <AnkiDecks doReload={doReload}
-                           handleDoReload={handleDoReload}
-                           handleSelectDeckName={handleSelectDeckName}/>
+                <DeckSelection doReload={doReload}
+                               handleDoReload={handleDoReload}
+                               handleSelectDeckName={handleSelectDeckName}/>
             </div>
         );
     } else {
@@ -37,7 +37,7 @@ function App() {
             <div>
                 <Dashboard/>
 
-                <DeckCards deckName={selectedDeckName}></DeckCards>
+                <Deck deckName={selectedDeckName}></Deck>
             </div>
         );
     }
