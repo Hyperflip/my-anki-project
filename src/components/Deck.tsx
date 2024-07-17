@@ -3,9 +3,11 @@ import Loading from "./Loading";
 import * as AnkiService from "../services/AnkiService";
 import { AnkiCardDto } from "../model/dto/AnkiCardDto";
 import AnkiCard from "./AnkiCard";
+import VocabWrapper from "./VocabWrapper";
 
 export default function Deck({ deckName }: { deckName: string | null }) {
     const [cards, setCards]: [AnkiCardDto[], any] = useState([]);
+    const [selectedVocab, setSelectedVocab]: [string | null, any] = useState(null);
 
     useEffect(() => {
         if (deckName === null) { return; }
@@ -24,17 +26,27 @@ export default function Deck({ deckName }: { deckName: string | null }) {
         return () => { return; };
     }, [deckName]);
 
-    return (
-        <div>
-            <h2>Deck: {deckName}</h2>
+    function handleSelectVocab(vocab: string) {
+        setSelectedVocab(vocab);
+    }
 
-            {cards.length === 0 && <Loading/>}
+    if (selectedVocab !== null) {
+        return (
+            <VocabWrapper vocab={selectedVocab}/>
+        );
+    } else {
+        return (
+            <div>
+                <h2>Deck: {deckName}</h2>
 
-            {
-                cards.map(card =>
-                    <AnkiCard card={card}/>
-                )
-            }
-        </div>
-    );
+                {cards.length === 0 && <Loading/>}
+
+                {
+                    cards.map((card, index) =>
+                        <AnkiCard key={index} card={card} handleSelectVocab={handleSelectVocab}/>
+                    )
+                }
+            </div>
+        );
+    }
 }

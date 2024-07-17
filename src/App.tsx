@@ -37,7 +37,7 @@ function App() {
             <div>
                 <Dashboard/>
 
-                <Deck deckName={selectedDeckName}></Deck>
+                <Deck deckName={selectedDeckName}/>
             </div>
         );
     }

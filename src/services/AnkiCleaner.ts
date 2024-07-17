@@ -7,7 +7,7 @@ export const sanitizeAndClean = (inputString: string, removeKana: boolean = fals
 
     const element = parser.parseFromString(sanitizedString, "text/html").body as HTMLElement;
 
-    const text = element.innerText;
+    const text = element.innerText.replaceAll("\n", "");
 
     if (removeKana) {
         return text.replace(/[\u0250-\ue007]/g, '');
