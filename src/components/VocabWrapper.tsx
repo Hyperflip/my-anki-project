@@ -4,6 +4,7 @@ import { KanaKanji } from "../model/KanaKanji";
 import { getKanaKanji } from "../services/KanjiService";
 import Loading from "./Loading";
 import KanaKanjiViewer from "./KanaKanjiViewer";
+import "./VocabWrapper.css";
 
 export default function VocabWrapper({ vocab }: { vocab: string }) {
     const [kanaKanji, setKanaKanji]: [KanaKanji[], any] = useState([]);
@@ -23,6 +24,7 @@ export default function VocabWrapper({ vocab }: { vocab: string }) {
 
     return (
         <div>
+            <div className={"horizontal-line"}></div>
             {kanaKanji.length === 0 && <Loading/>}
 
             {
