@@ -32,6 +32,8 @@ export default function Deck({ deckName }: { deckName: string | null }) {
     }, [deckName]);
 
     function handleSelectVocab(index: number, text?: string) {
+        if (index === -1 || index === cards.length - 1) { return; }
+
         const finalText = !text ? sanitizeAndClean(cards[index].question) : text;
 
         const vocab: Vocab = {
