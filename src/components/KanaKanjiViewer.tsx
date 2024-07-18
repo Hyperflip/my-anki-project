@@ -8,9 +8,9 @@ export default function KanaKanjiViewer({ kanaKanji }: { kanaKanji: KanaKanji })
                          dangerouslySetInnerHTML={{__html: svgString}}></span>;
 
     function getColor(){
-        return "hsl(" + 360 * Math.random() + ',' +
-            (25 + 70 * Math.random()) + '%,' +
-            (30 + 15 * Math.random()) + '%)';
+        return `hsl(${230 + 15 * Math.random()},
+            ${80 + 15 * Math.random()}%,
+            ${20 + 35 * Math.random()}%)`;
     }
 
     useEffect(() => {
