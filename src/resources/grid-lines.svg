@@ -1,0 +1,22 @@
+<svg
+   width="300px"
+   height="300px"
+   viewBox="0 0 79.375 79.374992"
+   version="1.1"
+   id="svg1"
+   xml:space="preserve"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"><defs
+     id="defs1" /><g
+     id="layer1"
+     transform="translate(-65.431894,-128.93104)"><g
+       id="g1"
+       transform="matrix(0.26458333,0,0,0.26458333,65.431891,128.93104)"><path
+         style="fill:#ffffff;fill-opacity:1;stroke:#001642;stroke-width:2.882;stroke-dasharray:2.882, 2.882;stroke-dashoffset:5.4758;stroke-opacity:0.4"
+         d="M 0,151.30282 H 300"
+         id="path4-3" /><path
+         style="fill:#ffffff;fill-opacity:1;stroke:#001642;stroke-width:2.882;stroke-dasharray:2.882, 2.882;stroke-dashoffset:5.4758;stroke-opacity:0.4;paint-order:normal"
+         d="M 151.30282,0 V 300"
+         id="path4-3-2" /></g></g><style
+     type="text/css"
+     id="style1">&#10;g.prefab path {&#10;  vector-effect:non-scaling-stroke;&#10;  -inkscape-stroke:hairline;&#10;  fill: none;&#10;  fill-opacity: 1;&#10;  stroke-opacity: 1;&#10;  stroke: #00349c;&#10;}&#10; </style></svg>

@@ -2,14 +2,7 @@
     display: inline-block;
     width: 300px;
     height: 300px;
-}
 
-.vertical-line {
-    display: inline-block;
-    width: 150px;
-    height: 300px;
-    position: absolute;
-    z-index: -999;
-
-    border-right: 2px dashed hsla(220, 100%, 13%, 0.4);
+    background-image: url("data:image/svg+xml, %3Csvg%0A%20%20%20width%3D%22300px%22%0A%20%20%20height%3D%22300px%22%0A%20%20%20viewBox%3D%220%200%2079.375%2079.374992%22%0A%20%20%20version%3D%221.1%22%0A%20%20%20id%3D%22svg1%22%0A%20%20%20xml%3Aspace%3D%22preserve%22%0A%20%20%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%0A%20%20%20xmlns%3Asvg%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cdefs%0A%20%20%20%20%20id%3D%22defs1%22%20%2F%3E%3Cg%0A%20%20%20%20%20id%3D%22layer1%22%0A%20%20%20%20%20transform%3D%22translate(-65.431894%2C-128.93104)%22%3E%3Cg%0A%20%20%20%20%20%20%20id%3D%22g1%22%0A%20%20%20%20%20%20%20transform%3D%22matrix(0.26458333%2C0%2C0%2C0.26458333%2C65.431891%2C128.93104)%22%3E%3Cpath%0A%20%20%20%20%20%20%20%20%20style%3D%22fill%3A%23ffffff%3Bfill-opacity%3A1%3Bstroke%3A%23001642%3Bstroke-width%3A2.882%3Bstroke-dasharray%3A2.882%2C%202.882%3Bstroke-dashoffset%3A5.4758%3Bstroke-opacity%3A0.4%22%0A%20%20%20%20%20%20%20%20%20d%3D%22M%200%2C151.30282%20H%20300%22%0A%20%20%20%20%20%20%20%20%20id%3D%22path4-3%22%20%2F%3E%3Cpath%0A%20%20%20%20%20%20%20%20%20style%3D%22fill%3A%23ffffff%3Bfill-opacity%3A1%3Bstroke%3A%23001642%3Bstroke-width%3A2.882%3Bstroke-dasharray%3A2.882%2C%202.882%3Bstroke-dashoffset%3A5.4758%3Bstroke-opacity%3A0.4%3Bpaint-order%3Anormal%22%0A%20%20%20%20%20%20%20%20%20d%3D%22M%20151.30282%2C0%20V%20300%22%0A%20%20%20%20%20%20%20%20%20id%3D%22path4-3-2%22%20%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3Cstyle%0A%20%20%20%20%20type%3D%22text%2Fcss%22%0A%20%20%20%20%20id%3D%22style1%22%3E%26%2310%3Bg.prefab%20path%20%7B%26%2310%3B%20%20vector-effect%3Anon-scaling-stroke%3B%26%2310%3B%20%20-inkscape-stroke%3Ahairline%3B%26%2310%3B%20%20fill%3A%20none%3B%26%2310%3B%20%20fill-opacity%3A%201%3B%26%2310%3B%20%20stroke-opacity%3A%201%3B%26%2310%3B%20%20stroke%3A%20%2300349c%3B%26%2310%3B%7D%26%2310%3B%20%3C%2Fstyle%3E%3C%2Fsvg%3E%0A");
+    background-repeat: no-repeat;
 }

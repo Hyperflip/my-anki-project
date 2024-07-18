@@ -26,7 +26,6 @@ export default function VocabWrapper({ vocabDto }: { vocabDto: Vocab }) {
 
     return (
         <div className={"wrapper"}>
-            <div className={"horizontal-line"}></div>
             {
                 !vocab?.kanaKanji ? <Loading/> : vocab.kanaKanji?.map((kanaKanji, index) =>
                         <KanaKanjiViewer key={`${index}${kanaKanji.hexCode}`} kanaKanji={kanaKanji}/>

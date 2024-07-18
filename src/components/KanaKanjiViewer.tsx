@@ -43,8 +43,7 @@ export default function KanaKanjiViewer({ kanaKanji }: { kanaKanji: KanaKanji })
     }, [kanaKanji.svg]);
 
     return (
-        <span>
-            <div className={"vertical-line"}></div>
+        <span className={"kanaKanji-wrapper"}>
             {svg}
         </span>
     );
