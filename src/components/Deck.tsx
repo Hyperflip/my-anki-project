@@ -4,10 +4,15 @@ import * as AnkiService from "../services/AnkiService";
 import { AnkiCardDto } from "../model/dto/AnkiCardDto";
 import AnkiCard from "./AnkiCard";
 import VocabWrapper from "./VocabWrapper";
+import { Vocab } from "../model/Vocab";
+import { Button, capitalize, Stack } from "@mui/material";
+import ArrowForward from "@mui/icons-material/ArrowForward";
+import ArrowBack from "@mui/icons-material/ArrowBack";
+import { sanitizeAndClean } from "../services/AnkiCleaner";
 
 export default function Deck({ deckName }: { deckName: string | null }) {
     const [cards, setCards]: [AnkiCardDto[], any] = useState([]);
-    const [selectedVocab, setSelectedVocab]: [string | null, any] = useState(null);
+    const [selectedVocab, setSelectedVocab]: [Vocab | null, any] = useState(null);
 
     useEffect(() => {
         if (deckName === null) { return; }
@@ -26,13 +31,27 @@ export default function Deck({ deckName }: { deckName: string | null }) {
         return () => { return; };
     }, [deckName]);
 
-    function handleSelectVocab(vocab: string) {
+    function handleSelectVocab(index: number, text?: string) {
+        const finalText = !text ? sanitizeAndClean(cards[index].question) : text;
+
+        const vocab: Vocab = {
+            deckIndex: index,
+            text: finalText,
+            characterCount: finalText.length
+        };
         setSelectedVocab(vocab);
     }
 
     if (selectedVocab !== null) {
         return (
-            <VocabWrapper vocab={selectedVocab}/>
+            <div>
+                <VocabWrapper vocabDto={selectedVocab}/>
+
+                <Stack direction={"row"} spacing={1}>
+                    <Button variant={"outlined"} startIcon={<ArrowBack/>} onClick={() => handleSelectVocab(selectedVocab["deckIndex"] - 1)}/>
+                    <Button variant={"outlined"} startIcon={<ArrowForward/>} onClick={() => handleSelectVocab(selectedVocab["deckIndex"] + 1)}/>
+                </Stack>
+            </div>
         );
     } else {
         return (
@@ -43,7 +62,7 @@ export default function Deck({ deckName }: { deckName: string | null }) {
 
                 {
                     cards.map((card, index) =>
-                        <AnkiCard key={index} card={card} handleSelectVocab={handleSelectVocab}/>
+                        <AnkiCard key={index} deckIndex={index} card={card} handleSelectVocab={handleSelectVocab}/>
                     )
                 }
             </div>

@@ -4,7 +4,7 @@ import * as AnkiCleaner from "../services/AnkiCleaner";
 import './AnkiCard.css';
 import ButtonText from "./ButtonText";
 
-export default function AnkiCard({ card, handleSelectVocab }: { card: AnkiCardDto, handleSelectVocab: (vocab: string) => void }) {
+export default function AnkiCard({ card, deckIndex, handleSelectVocab }: { card: AnkiCardDto, deckIndex: number, handleSelectVocab: (deckIndex: number, text?: string) => void }) {
     const japaneseText = AnkiCleaner.sanitizeAndClean(card.question);
     const description = AnkiCleaner.sanitizeAndClean(card.answer, true);
 
@@ -23,7 +23,7 @@ export default function AnkiCard({ card, handleSelectVocab }: { card: AnkiCardDt
                     </Typography>
                 </CardContent>
                 <CardActions>
-                    <ButtonText text={"Open Viewer"} onClick={() => handleSelectVocab(japaneseText)}/>
+                    <ButtonText text={"Open Viewer"} onClick={() => handleSelectVocab(deckIndex, japaneseText)}/>
                 </CardActions>
             </Card>
         </div>

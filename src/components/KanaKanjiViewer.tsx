@@ -40,7 +40,7 @@ export default function KanaKanjiViewer({ kanaKanji }: { kanaKanji: KanaKanji })
         }
 
         setSvgString(tempSvg.body.innerHTML);
-    }, []);
+    }, [kanaKanji.svg]);
 
     return (
         <span>

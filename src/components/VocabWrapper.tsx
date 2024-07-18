@@ -1,36 +1,36 @@
 import { useEffect, useState } from "react";
 import * as KanjiService from "../services/KanjiService";
-import { KanaKanji } from "../model/KanaKanji";
 import { getKanaKanji } from "../services/KanjiService";
 import Loading from "./Loading";
 import KanaKanjiViewer from "./KanaKanjiViewer";
 import "./VocabWrapper.css";
+import { Vocab } from "../model/Vocab";
 
-export default function VocabWrapper({ vocab }: { vocab: string }) {
-    const [kanaKanji, setKanaKanji]: [KanaKanji[], any] = useState([]);
+export default function VocabWrapper({ vocabDto }: { vocabDto: Vocab }) {
+    const [vocab, setVocab] = useState<Vocab | null>(null);
 
     useEffect(() => {
-        const unicodes: string[] = KanjiService.getUnicodes(vocab);
+        const vocab = vocabDto;
+        const unicodes: string[] = KanjiService.getUnicodes(vocab.text);
         const kanjiIndices: number[] = KanjiService.getKanjiIndices(unicodes);
+        const kanaIndices: number[] = KanjiService.getKanaIndices(unicodes);
 
         async function startFetching(unicodes: string[], kanjiIndices: number[]) {
-            const kanaKanji = await getKanaKanji(unicodes, kanjiIndices);
-            setKanaKanji(kanaKanji);
+            vocab.kanaKanji = await getKanaKanji(unicodes, kanjiIndices, kanaIndices);
+            setVocab(vocab);
         }
         startFetching(unicodes, kanjiIndices);
 
         return () => { return; };
-    }, [vocab]);
+    }, [vocabDto]);
 
     return (
-        <div>
+        <div className={"wrapper"}>
             <div className={"horizontal-line"}></div>
-            {kanaKanji.length === 0 && <Loading/>}
-
             {
-                kanaKanji.map((kanaKanji, index) =>
-                    <KanaKanjiViewer key={index} kanaKanji={kanaKanji}/>
-                )
+                !vocab?.kanaKanji ? <Loading/> : vocab.kanaKanji?.map((kanaKanji, index) =>
+                        <KanaKanjiViewer key={`${index}${kanaKanji.hexCode}`} kanaKanji={kanaKanji}/>
+                    )
             }
         </div>
     );
