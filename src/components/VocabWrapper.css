@@ -1,5 +1,7 @@
 .wrapper {
     display: flex;
     flex-wrap: nowrap;
-    overflow-x: scroll;
+
+    overflow-x: auto;
+    overflow-y: clip;
 }
