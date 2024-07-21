@@ -5,31 +5,43 @@ import { AnkiCardDto } from "../model/dto/AnkiCardDto";
 import AnkiCard from "./AnkiCard";
 import VocabWrapper from "./VocabWrapper";
 import { Vocab } from "../model/Vocab";
-import { Button, capitalize, Stack } from "@mui/material";
+import { Button, capitalize, Checkbox, FormControlLabel, Stack } from "@mui/material";
 import ArrowForward from "@mui/icons-material/ArrowForward";
 import ArrowBack from "@mui/icons-material/ArrowBack";
 import { sanitizeAndClean } from "../services/AnkiCleaner";
+import { shuffleArray } from "../services/UtilService";
+import { CheckBox } from "@mui/icons-material";
 
 export default function Deck({ deckName }: { deckName: string | null }) {
     const [cards, setCards]: [AnkiCardDto[], any] = useState([]);
     const [selectedVocab, setSelectedVocab]: [Vocab | null, any] = useState(null);
+    const [shuffleCards, setShuffleCards] = useState<boolean>(true);
 
     useEffect(() => {
         if (deckName === null) { return; }
 
         async function startFetching(deckName: string) {
+
+            // TODO: cardIds and cardInfo[] responses are memoized... yet ineffective, as cardInfos are not mapped to Ids
+
             // fetch card ids
             const cardIds: number[] = (await AnkiService.getCardsByDeckName(deckName) as any).result;
 
             // fetch card infos
             const response = await AnkiService.getCardsInfo(cardIds);
-            setCards(response.result as AnkiCardDto);
+            const cards = response.result as AnkiCardDto[];
+
+            if (shuffleCards) {
+                shuffleArray(cards);
+            }
+
+            setCards(cards);
         }
         startFetching(deckName);
 
         // cleanup fn
         return () => { return; };
-    }, [deckName]);
+    }, [deckName, shuffleCards]);
 
     function handleSelectVocab(index: number, text?: string) {
         if (index === -1 || index === cards.length - 1) { return; }
@@ -61,6 +73,12 @@ export default function Deck({ deckName }: { deckName: string | null }) {
                 <h2>Deck: {deckName}</h2>
 
                 {cards.length === 0 && <Loading/>}
+
+                <FormControlLabel label="Shuffle Cards" control={
+                    <Checkbox color={"secondary"}
+                              checked={shuffleCards}
+                              onChange={() => setShuffleCards(!shuffleCards)}/>}
+                />
 
                 {
                     cards.map((card, index) =>

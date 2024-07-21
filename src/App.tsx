@@ -6,6 +6,7 @@ import DeckSelection from "./components/DeckSelection";
 import Loading from "./components/Loading";
 import Deck from "./components/Deck";
 import Dashboard from "./components/Dashboard";
+import { NavigationContainer } from "@react-navigation/native";
 
 function App() {
     const [doReload, setDoReload]: [boolean, any] = useState(false);
@@ -18,6 +19,31 @@ function App() {
     function handleSelectDeckName(deckName: string) {
         setSelectedDeckName(deckName);
     }
+
+    /*
+    function DeckSelection() {
+        return (
+            <div>
+                <ButtonPrimary text="Load Anki" onClick={() => handleDoReload(true)}/>
+
+                {doReload && <Loading />}
+                <DeckSelection doReload={doReload}
+                               handleDoReload={handleDoReload}
+                               handleSelectDeckName={handleSelectDeckName}/>
+            </div>
+        );
+    }
+
+    return (
+        <div>
+            <Dashboard/>
+
+            <NavigationContainer>
+
+            </NavigationContainer>
+        </div>
+    );
+    */
 
     if (selectedDeckName == null) {
         return (

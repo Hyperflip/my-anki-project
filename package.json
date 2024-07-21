@@ -8,6 +8,8 @@
     "@fontsource/roboto": "^5.0.13",
     "@mui/icons-material": "^5.16.4",
     "@mui/material": "^5.16.4",
+    "@react-navigation/native": "^6.1.18",
+    "@react-navigation/native-stack": "^6.10.1",
     "@svgdotjs/svg.js": "^3.2.4",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
