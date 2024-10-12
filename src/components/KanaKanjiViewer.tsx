@@ -4,8 +4,8 @@ import { ReactNode, useEffect, useState } from "react";
 
 export default function KanaKanjiViewer({ kanaKanji }: { kanaKanji: KanaKanji }) {
     const [svgString, setSvgString] = useState<string>(kanaKanji.svg);
-    const svg: ReactNode = <span className={"kanaKanji-wrapper"}
-                         dangerouslySetInnerHTML={{__html: svgString}}></span>;
+    const svg: ReactNode = <svg className={"kanaKanji-wrapper"}
+                         dangerouslySetInnerHTML={{__html: svgString}}></svg>;
 
     function getColor(){
         return `hsl(${230 + 15 * Math.random()},
@@ -21,8 +21,8 @@ export default function KanaKanjiViewer({ kanaKanji }: { kanaKanji: KanaKanji })
         // remove weird characters
         tempSvg.body.firstChild!.remove();
         const svg = tempSvg.body.firstChild! as SVGSVGElement;
-        svg.setAttribute("width", "300");
-        svg.setAttribute("height", "300");
+        svg.setAttribute("width", "100%");
+        svg.setAttribute("height", "100%");
 
         const strokeNumberGroup = tempSvg.getElementById(`kvg:StrokeNumbers_${kanaKanji.hexCode}`)!;
 
