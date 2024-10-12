@@ -56,14 +56,19 @@ export default function Deck({ deckName }: { deckName: string | null }) {
         setSelectedVocab(vocab);
     }
 
+    function currentIndex(): number {
+        return selectedVocab!["deckIndex"];
+    }
+
     if (selectedVocab !== null) {
         return (
             <div>
+                <AnkiCard key={currentIndex()} card={cards.at(currentIndex())!} disableSelection={true} />
                 <VocabWrapper vocabDto={selectedVocab}/>
 
                 <Stack direction={"row"} spacing={1}>
-                    <Button variant={"outlined"} startIcon={<ArrowBack/>} onClick={() => handleSelectVocab(selectedVocab["deckIndex"] - 1)}/>
-                    <Button variant={"outlined"} startIcon={<ArrowForward/>} onClick={() => handleSelectVocab(selectedVocab["deckIndex"] + 1)}/>
+                    <Button variant={"outlined"} startIcon={<ArrowBack/>} onClick={() => handleSelectVocab(currentIndex() - 1)}/>
+                    <Button variant={"outlined"} startIcon={<ArrowForward/>} onClick={() => handleSelectVocab(currentIndex() + 1)}/>
                 </Stack>
             </div>
         );

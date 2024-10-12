@@ -4,15 +4,22 @@ import * as AnkiCleaner from "../services/AnkiCleaner";
 import './AnkiCard.css';
 import ButtonText from "./ButtonText";
 
-export default function AnkiCard({ card, deckIndex, handleSelectVocab }: { card: AnkiCardDto, deckIndex: number, handleSelectVocab: (deckIndex: number, text?: string) => void }) {
+interface AnkiCardProps {
+    card: AnkiCardDto;
+    disableSelection?: boolean,
+    deckIndex?: number,
+    handleSelectVocab?: (deckIndex: number, text?: string) => void,
+}
+
+export default function AnkiCard({ card, disableSelection = false, deckIndex, handleSelectVocab }: AnkiCardProps) {
     const japaneseText = AnkiCleaner.sanitizeAndClean(card.question);
     const description = AnkiCleaner.sanitizeAndClean(card.answer, true);
 
     return (
         <div className={"anki-card"}>
-            <Card sx={{ minWidth: 150, maxWidth: 250, width: "auto" }}>
+            <Card sx={{minWidth: 150, maxWidth: 250, width: "auto"}}>
                 <CardContent>
-                    <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+                    <Typography sx={{fontSize: 14}} color="text.secondary" gutterBottom>
                         単語
                     </Typography>
                     <Typography variant="h5" component="div">
@@ -22,9 +29,12 @@ export default function AnkiCard({ card, deckIndex, handleSelectVocab }: { card:
                         {description}
                     </Typography>
                 </CardContent>
-                <CardActions>
-                    <ButtonText text={"Open Viewer"} onClick={() => handleSelectVocab(deckIndex, japaneseText)}/>
-                </CardActions>
+                {
+                    !disableSelection &&
+                    <CardActions>
+                        <ButtonText text={"Open Viewer"} onClick={() => handleSelectVocab!(deckIndex!, japaneseText)}/>
+                    </CardActions>
+                }
             </Card>
         </div>
     );
