@@ -24,12 +24,16 @@ export default function VocabWrapper({ vocabDto }: { vocabDto: Vocab }) {
         return () => { return; };
     }, [vocabDto]);
 
+    function buildVocab(vocab: Vocab) {
+        return vocab.kanaKanji?.map((kanaKanji, index) =>
+            <KanaKanjiViewer key={`${index}${kanaKanji.hexCode}`} kanaKanji={kanaKanji}/>
+        );
+    }
+
     return (
         <div className={"wrapper"}>
             {
-                !vocab?.kanaKanji ? <Loading/> : vocab.kanaKanji?.map((kanaKanji, index) =>
-                        <KanaKanjiViewer key={`${index}${kanaKanji.hexCode}`} kanaKanji={kanaKanji}/>
-                    )
+                !vocab?.kanaKanji ? <Loading/> : buildVocab(vocab)
             }
         </div>
     );
