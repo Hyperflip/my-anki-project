@@ -5,12 +5,11 @@ import { AnkiCardDto } from "../model/dto/AnkiCardDto";
 import AnkiCard from "./AnkiCard";
 import VocabWrapper from "./VocabWrapper";
 import { Vocab } from "../model/Vocab";
-import { Button, capitalize, Checkbox, FormControlLabel, Stack } from "@mui/material";
+import { Button, Checkbox, FormControlLabel, Stack } from "@mui/material";
 import ArrowForward from "@mui/icons-material/ArrowForward";
 import ArrowBack from "@mui/icons-material/ArrowBack";
 import { sanitizeAndClean } from "../services/AnkiCleaner";
 import { shuffleArray } from "../services/UtilService";
-import { CheckBox } from "@mui/icons-material";
 
 export default function Deck({ deckName }: { deckName: string | null }) {
     const [cards, setCards]: [AnkiCardDto[], any] = useState([]);
