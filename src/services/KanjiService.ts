@@ -42,10 +42,6 @@ const getKanaIndices = (unicodes: string[]): number[] => {
         .filter(index => index !== -1);
 };
 
-const memoizedFetchKanji = memoize((url: string, unicode: string): Promise<AxiosResponse> => {
-    return axios.get(`${url}/${unicode}.svg`);
-});
-
 const getKanaKanji = async (unicodes: string[], kanjiIndices: number[], kanaIndices: number[]) => {
     const kanaKanji: KanaKanji[] = [];
     for (let i = 0; i < unicodes.length; i++) {
@@ -53,7 +49,9 @@ const getKanaKanji = async (unicodes: string[], kanjiIndices: number[], kanaIndi
         const isKana = kanaIndices.includes(i);
         if (!isKanji && !isKana) { continue; }
 
-        const svgPath = (await memoizedFetchKanji(url, unicodes[i]) as any).data;
+        const svgFilePath = `/resources/kanji/${unicodes[i]}.svg`;
+        const svgPath = await fetch(svgFilePath)
+            .then(res => res.text());
         kanaKanji.push(<KanaKanji>{
             hexCode: unicodes[i],
             isKanji,
