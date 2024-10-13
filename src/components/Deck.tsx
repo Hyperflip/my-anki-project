@@ -20,9 +20,6 @@ export default function Deck({ deckName }: { deckName: string | null }) {
         if (deckName === null) { return; }
 
         async function startFetching(deckName: string) {
-
-            // TODO: cardIds and cardInfo[] responses are memoized... yet ineffective, as cardInfos are not mapped to Ids
-
             // fetch card ids
             const cardIds: number[] = (await AnkiService.getCardsByDeckName(deckName) as any).result;
 
