@@ -2,7 +2,7 @@ import axios, { AxiosResponse } from 'axios';
 import { AnkiCardDto } from "../model/dto/AnkiCardDto";
 import memoize from "memoizee";
 
-const url: string = "http://localhost:8765";
+const url: string = process.env.REACT_APP_ANKICONNECT_URL!;
 const version: number = 6;
 
 const getDeckNames = async () => {

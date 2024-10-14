@@ -1,8 +1,4 @@
 import { KanaKanji } from "../model/KanaKanji";
-import axios, { AxiosResponse } from "axios";
-import memoize from "memoizee";
-
-const url: string = "https://kanjivg.tagaini.net/kanjivg/kanji/";
 
 const isKanji = (hexCode: number): boolean => {
     return 0x4e00 < hexCode && hexCode <= 0x9fff;

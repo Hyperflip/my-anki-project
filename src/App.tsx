@@ -6,7 +6,6 @@ import DeckSelection from "./components/DeckSelection";
 import Loading from "./components/Loading";
 import Deck from "./components/Deck";
 import Dashboard from "./components/Dashboard";
-import { NavigationContainer } from "@react-navigation/native";
 
 function App() {
     const [doReload, setDoReload]: [boolean, any] = useState(false);
