@@ -7,9 +7,16 @@ import Loading from "./components/Loading";
 import Deck from "./components/Deck";
 import Dashboard from "./components/Dashboard";
 
-function App() {
+export const KeydownContext = React.createContext({});
+
+function App(this: any) {
+    const [key, setKey] = useState("");
     const [doReload, setDoReload]: [boolean, any] = useState(false);
     const [selectedDeckName, setSelectedDeckName]: [string | null, any] = useState(null);
+
+    function handleKeyDown(event: any) {
+        setKey(event.key);
+    }
 
     function handleDoReload(val: boolean) {
         setDoReload(val);
@@ -59,11 +66,16 @@ function App() {
         );
     } else {
         return (
-            <div>
-                <Dashboard/>
+            <KeydownContext.Provider value={{ key: key, setKey: setKey }}>
+                <div id={"keydownContextContainer"}
+                     tabIndex={-1}
+                     style={{outline: "none"}}
+                     onKeyDown={handleKeyDown}>
+                    <Dashboard/>
 
-                <Deck deckName={selectedDeckName}/>
-            </div>
+                    <Deck deckName={selectedDeckName}/>
+                </div>
+            </KeydownContext.Provider>
         );
     }
 }

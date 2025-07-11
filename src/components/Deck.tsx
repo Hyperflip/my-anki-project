@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Loading from "./Loading";
 import * as AnkiService from "../services/AnkiService";
 import { AnkiCardDto } from "../model/dto/AnkiCardDto";
@@ -10,11 +10,29 @@ import ArrowForward from "@mui/icons-material/ArrowForward";
 import ArrowBack from "@mui/icons-material/ArrowBack";
 import { sanitizeAndClean } from "../services/AnkiCleaner";
 import { shuffleArray } from "../services/UtilService";
+import { KeydownContext } from "../App";
 
-export default function Deck({ deckName }: { deckName: string | null }) {
+export default function Deck(this: any, { deckName }: { deckName: string | null }) {
+    const {key, setKey} = useContext(KeydownContext) as any;
     const [cards, setCards]: [AnkiCardDto[], any] = useState([]);
     const [selectedVocab, setSelectedVocab]: [Vocab | null, any] = useState(null);
     const [shuffleCards, setShuffleCards] = useState<boolean>(true);
+
+    const handleKeyDown = (key: string) => {
+        if (key === "ArrowLeft") {
+            handleSelectVocab(currentIndex() - 1);
+        }
+        if (key === "ArrowRight") {
+            handleSelectVocab(currentIndex() + 1);
+        }
+        setKey("");
+    };
+
+    useEffect(() => {
+        if (key.length > 0) {
+            handleKeyDown(key);
+        }
+    }, [key]);
 
     useEffect(() => {
         if (deckName === null) { return; }
@@ -63,8 +81,8 @@ export default function Deck({ deckName }: { deckName: string | null }) {
                 <VocabWrapper vocabDto={selectedVocab}/>
 
                 <Stack direction={"row"} spacing={1}>
-                    <Button variant={"outlined"} startIcon={<ArrowBack/>} onClick={() => handleSelectVocab(currentIndex() - 1)}/>
-                    <Button variant={"outlined"} startIcon={<ArrowForward/>} onClick={() => handleSelectVocab(currentIndex() + 1)}/>
+                    <Button startIcon={<ArrowBack/>} variant={"outlined"} onClick={() => handleSelectVocab(currentIndex() - 1)}/>
+                    <Button name={"arrowRight"} autoFocus variant={"outlined"} startIcon={<ArrowForward/>} onClick={() => handleSelectVocab(currentIndex() + 1)}/>
                 </Stack>
             </div>
         );
