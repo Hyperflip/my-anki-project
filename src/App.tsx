@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './App.css';
 import './services/AnkiService';
 import ButtonPrimary from "./components/ButtonPrimary";
@@ -14,6 +14,10 @@ function App(this: any) {
     const [doReload, setDoReload]: [boolean, any] = useState(false);
     const [selectedDeckName, setSelectedDeckName]: [string | null, any] = useState(null);
 
+    useEffect(() => {
+        console.log(selectedDeckName);
+    }, [selectedDeckName]);
+
     function handleKeyDown(event: any) {
         setKey(event.key);
     }
@@ -26,58 +30,29 @@ function App(this: any) {
         setSelectedDeckName(deckName);
     }
 
-    /*
-    function DeckSelection() {
-        return (
-            <div>
-                <ButtonPrimary text="Load Anki" onClick={() => handleDoReload(true)}/>
+    const NoDeckSelected = <>
+    <Dashboard/>
+    <ButtonPrimary text="Load Anki" onClick={() => handleDoReload(true)}/>
+    {doReload && <Loading/>}
+    <DeckSelection doReload={doReload}
+                   handleDoReload={handleDoReload}
+                   handleSelectDeckName={handleSelectDeckName}/>
+    </>;
 
-                {doReload && <Loading />}
-                <DeckSelection doReload={doReload}
-                               handleDoReload={handleDoReload}
-                               handleSelectDeckName={handleSelectDeckName}/>
-            </div>
-        );
-    }
+    const DeckSelected = <>
+        <Dashboard />
+        <Deck deckName={selectedDeckName}/>
+    </>;
 
     return (
-        <div>
-            <Dashboard/>
-
-            <NavigationContainer>
-
-            </NavigationContainer>
-        </div>
-    );
-    */
-
-    if (selectedDeckName == null) {
-        return (
-            <div>
-                <Dashboard/>
-
-                <ButtonPrimary text="Load Anki" onClick={() => handleDoReload(true)}/>
-
-                {doReload && <Loading />}
-                <DeckSelection doReload={doReload}
-                               handleDoReload={handleDoReload}
-                               handleSelectDeckName={handleSelectDeckName}/>
+        <KeydownContext.Provider value={{key: key, setKey: setKey}}>
+            <div id={"keydownContextContainer"} tabIndex={-1} style={{outline: "none"}} onKeyDown={handleKeyDown}>
+                {selectedDeckName == null ?
+                    <>{NoDeckSelected}</> :
+                    <>{DeckSelected}</>}
             </div>
-        );
-    } else {
-        return (
-            <KeydownContext.Provider value={{ key: key, setKey: setKey }}>
-                <div id={"keydownContextContainer"}
-                     tabIndex={-1}
-                     style={{outline: "none"}}
-                     onKeyDown={handleKeyDown}>
-                    <Dashboard/>
-
-                    <Deck deckName={selectedDeckName}/>
-                </div>
-            </KeydownContext.Provider>
-        );
-    }
+        </KeydownContext.Provider>
+    );
 }
 
 export default App;
