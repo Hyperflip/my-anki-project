@@ -1,0 +1,9 @@
+body {
+    margin: 0;
+}
+
+#keydownContextContainer {
+    height: 100vh;
+    padding-top: 1em;
+    outline: none;
+}

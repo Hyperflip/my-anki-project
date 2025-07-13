@@ -31,12 +31,12 @@ function App(this: any) {
     }
 
     const NoDeckSelected = <>
-    <Dashboard/>
-    <ButtonPrimary text="Load Anki" onClick={() => handleDoReload(true)}/>
-    {doReload && <Loading/>}
-    <DeckSelection doReload={doReload}
-                   handleDoReload={handleDoReload}
-                   handleSelectDeckName={handleSelectDeckName}/>
+        <Dashboard/>
+        <ButtonPrimary text="Load Anki" onClick={() => handleDoReload(true)}/>
+        {doReload && <Loading/>}
+        <DeckSelection doReload={doReload}
+                       handleDoReload={handleDoReload}
+                       handleSelectDeckName={handleSelectDeckName}/>
     </>;
 
     const DeckSelected = <>
@@ -46,7 +46,7 @@ function App(this: any) {
 
     return (
         <KeydownContext.Provider value={{key: key, setKey: setKey}}>
-            <div id={"keydownContextContainer"} tabIndex={-1} style={{outline: "none"}} onKeyDown={handleKeyDown}>
+            <div id={"keydownContextContainer"} tabIndex={-1} onKeyDown={handleKeyDown}>
                 {selectedDeckName == null ?
                     <>{NoDeckSelected}</> :
                     <>{DeckSelected}</>}
