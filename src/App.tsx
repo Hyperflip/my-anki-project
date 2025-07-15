@@ -6,6 +6,7 @@ import DeckSelection from "./components/DeckSelection";
 import Loading from "./components/Loading";
 import Deck from "./components/Deck";
 import Dashboard from "./components/Dashboard";
+import GoogleDriveHandler from "./components/GoogleDriveHandler";
 
 export const KeydownContext = React.createContext({});
 
@@ -32,11 +33,18 @@ function App(this: any) {
 
     const NoDeckSelected = <>
         <Dashboard/>
-        <ButtonPrimary text="Load Anki" onClick={() => handleDoReload(true)}/>
-        {doReload && <Loading/>}
-        <DeckSelection doReload={doReload}
-                       handleDoReload={handleDoReload}
-                       handleSelectDeckName={handleSelectDeckName}/>
+        <h3>Load from Anki Desktop</h3>
+        <div>
+            <ButtonPrimary text="Load Anki" onClick={() => handleDoReload(true)}/>
+            {doReload && <Loading/>}
+            <DeckSelection doReload={doReload}
+                           handleDoReload={handleDoReload}
+                           handleSelectDeckName={handleSelectDeckName}/>
+        </div>
+        <h3>Load from Google Drive</h3>
+        <div>
+            <GoogleDriveHandler />
+        </div>
     </>;
 
     const DeckSelected = <>
