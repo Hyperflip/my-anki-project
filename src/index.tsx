@@ -9,13 +9,15 @@ import { PathService } from "./services/PathService";
 import { KanjiService } from "./services/KanjiService";
 import { AnkiDbService } from "./services/AnkiDbService";
 import { AnkiService } from "./services/AnkiService";
+import { AnkiDesktopService } from "./services/AnkiDesktopService";
 
 export const ServiceContext = React.createContext({});
 
 const pathService: PathService = new PathService();
 const kanjiService: KanjiService = new KanjiService(pathService);
+const ankiDesktopService: AnkiDesktopService = new AnkiDesktopService();
 const ankiDbService: AnkiDbService = new AnkiDbService(pathService);
-const ankiService: AnkiService = new AnkiService(ankiDbService);
+const ankiService: AnkiService = new AnkiService(pathService.getIsElectronEnv(), ankiDesktopService, ankiDbService);
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement

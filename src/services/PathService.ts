@@ -39,4 +39,8 @@ export class PathService {
     public getResourcePath(resource: string) {
         return path.join(this.root, resource);
     }
+
+    public getIsElectronEnv(): boolean {
+        return this.isElectronEnv;
+    }
 }

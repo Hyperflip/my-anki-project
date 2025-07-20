@@ -31,12 +31,11 @@ export class AnkiDbService {
         this.db = db;
     }
 
-    public executeQuery(query: string): any {
-        debugger;
-        const stmt = this.db.prepare("SELECT sql FROM sqlite_master WHERE type='table'");
-        const result = stmt.getAsObject();
-        debugger;
-        return result;
+    public getDeckNames(): any {
+        const result = this.db.exec("SELECT name FROM decks");
+        const values = result[0]["values"];
+        const deckNames: string[] = values.map((val: any) => val[0]);
+        return Promise.resolve({ result: deckNames });
     }
 
     private async unzipAnki21bCollection(blob: any): Promise<Blob | undefined> {

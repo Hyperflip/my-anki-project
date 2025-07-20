@@ -1,69 +1,32 @@
-import axios, { AxiosResponse } from 'axios';
-import { AnkiCardDto } from "../model/dto/AnkiCardDto";
-import memoize from "memoizee";
-import { useContext } from "react";
-import { ServiceContext } from "../index";
 import { AnkiDbService } from "./AnkiDbService";
+import { AnkiDesktopService } from "./AnkiDesktopService";
 
 
 export class AnkiService {
-    private url: string = process.env.REACT_APP_ANKICONNECT_URL!;
-    private version: number = 6;
+    private isDesktop: boolean = false;
+    private ankiDesktopService: AnkiDesktopService | undefined;
+    private ankiDbService: AnkiDbService | undefined;
 
-    private ankiDbService: AnkiDbService;
+    constructor(isDesktop: boolean, ankiDesktopService: AnkiDesktopService, ankiDbService: AnkiDbService) {
+        this.isDesktop = isDesktop;
 
-    constructor(ankiDbService: AnkiDbService) {
-        this.ankiDbService = ankiDbService;
+        if (this.isDesktop) {
+            this.ankiDesktopService = ankiDesktopService;
+        } else {
+            this.ankiDbService = ankiDbService;
+        }
     }
 
-    public getDeckNames = async () => {
-        // TODO REMOVE AFTER TESTING
-        return {result: this.ankiDbService.executeQuery("")};
-        try {
-            const response = await axios.post(this.url, {
-                action: "deckNames",
-                version: this.version
-            });
-            return response.data;
-        } catch (error) {
-            console.error(`Error fetching deck names: ${error}`);
-            throw error;
-        }
+    public getDeckNames = async (): Promise<string[]> => {
+        return this.ankiDesktopService ? this.ankiDesktopService.getDeckNames() : this.ankiDbService!.getDeckNames();
     };
 
-    private memoizedFetchCardsByDeckName = memoize((deckName: string): Promise<AxiosResponse> => {
-        return axios.post(this.url, {
-            action: "findCards",
-            version: this.version,
-            params: {
-                query: `deck:${deckName}`,
-            }
-        });
-    });
 
     public getCardsByDeckName = async (deckName: string) => {
-        try {
-            return (await this.memoizedFetchCardsByDeckName(deckName) as AxiosResponse).data;
-        } catch (error) {
-            console.error(`Error fetching cards by deck name: ${deckName}`);
-        }
+        return await null;
     };
 
-    private memoizedFetchCardsInfo = memoize((cardIds: number[]): Promise<AxiosResponse> => {
-        return axios.post(this.url, {
-            action: "cardsInfo",
-            version: this.version,
-            params: {
-                cards: cardIds
-            }
-        });
-    });
-
     private getCardsInfo = async (cardIds: number[]) => {
-        try {
-            return (await this.memoizedFetchCardsInfo(cardIds) as AxiosResponse).data;
-        } catch (error) {
-            console.error(`Error fetching cards info: ${error}`);
-        }
+        return await null;
     };
 }
