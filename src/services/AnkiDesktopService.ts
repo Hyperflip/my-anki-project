@@ -47,7 +47,7 @@ export class AnkiDesktopService {
         });
     });
 
-    private getCardsInfo = async (cardIds: number[]) => {
+    public getCardsInfo = async (cardIds: number[]) => {
         try {
             return (await this.memoizedFetchCardsInfo(cardIds) as AxiosResponse).data;
         } catch (error) {

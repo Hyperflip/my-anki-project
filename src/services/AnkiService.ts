@@ -23,10 +23,10 @@ export class AnkiService {
 
 
     public getCardsByDeckName = async (deckName: string) => {
-        return await null;
+        return this.ankiDesktopService ? this.ankiDesktopService.getCardsByDeckName(deckName) : this.ankiDbService!.getCardsByDeckName(deckName);
     };
 
     private getCardsInfo = async (cardIds: number[]) => {
-        return await null;
+        return this.ankiDesktopService ? this.ankiDesktopService.getCardsInfo(cardIds) : this.ankiDbService!.getCardsInfo(cardIds);
     };
 }

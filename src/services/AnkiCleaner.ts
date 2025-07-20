@@ -15,3 +15,10 @@ export const sanitizeAndClean = (inputString: string, removeKana: boolean = fals
         return text;
     }
 };
+
+export const removeBracketsContent = (vocab: string) => {
+    vocab = vocab.replace('[', '');
+    vocab = vocab.replace(']', '');
+    // TODO: remove kana in brackets only
+    return vocab.replace(/[\u0250-\ue007]/g, '');
+};

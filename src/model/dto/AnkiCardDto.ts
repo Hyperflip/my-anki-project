@@ -3,5 +3,6 @@ export interface AnkiCardDto {
     deckName: string,
     answer: string,
     question: string,
+    // unused apparently
     css: string,
 }
