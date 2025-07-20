@@ -1,9 +1,10 @@
 import useDrivePicker from "react-google-drive-picker";
 import ButtonPrimary from "./ButtonPrimary";
 import { useEffect, useState } from "react";
+import { BlobReader, BlobWriter, ZipReader } from "@zip.js/zip.js";
 
 
-function GoogleDriveHandler(this: any) {
+function GoogleDriveHandler({ handleFilePicked }: { handleFilePicked: (blob: any) => void }) {
     const [openPicker, authResponse] = useDrivePicker();
     const [file, setFile] = useState({}) as any;
     // const customViewsArray = [new google.picker.DocsView()]; // custom view
@@ -12,7 +13,6 @@ function GoogleDriveHandler(this: any) {
 
     useEffect(() => {
         if (file && authResponse?.access_token) {
-            debugger;
             fetch(`https://www.googleapis.com/drive/v3/files/${file.id}?alt=media`, {
                 method: 'GET',
                 headers: {
@@ -24,8 +24,7 @@ function GoogleDriveHandler(this: any) {
                     return response.blob(); // or response.text(), depending on file type
                 })
                 .then(blob => {
-                    debugger;
-                    console.log(blob);
+                    handleFilePicked(blob);
                 })
                 .catch(error => console.error('Error:', error));
         }

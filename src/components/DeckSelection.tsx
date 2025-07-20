@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
-import * as AnkiService from "../services/AnkiService";
+import React, { useContext, useEffect, useState } from "react";
 import './DeckSelection.css';
 import ButtonText from "./ButtonText";
+import { ServiceContext } from "../index";
 
 export default function DeckSelection({ doReload, handleDoReload, handleSelectDeckName }: { doReload: boolean, handleDoReload: (val: boolean) => void, handleSelectDeckName: (val: string) => void }) {
     const [deckNames, setDeckNames]: [string[], any] = useState([]);
+    const {ankiService} = useContext(ServiceContext) as any;
 
     useEffect(() => {
         async function startFetching() {
@@ -12,7 +13,7 @@ export default function DeckSelection({ doReload, handleDoReload, handleSelectDe
                 if (deckNames.length > 0) {
                     setDeckNames([]);
                 }
-                const response = await AnkiService.getDeckNames();
+                const response = await ankiService.getDeckNames();
                 setDeckNames(response.result);
             }
             handleDoReload(false);

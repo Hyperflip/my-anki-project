@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import './App.css';
 import './services/AnkiService';
 import ButtonPrimary from "./components/ButtonPrimary";
@@ -7,6 +7,7 @@ import Loading from "./components/Loading";
 import Deck from "./components/Deck";
 import Dashboard from "./components/Dashboard";
 import GoogleDriveHandler from "./components/GoogleDriveHandler";
+import { ServiceContext } from "./index";
 
 export const KeydownContext = React.createContext({});
 
@@ -14,6 +15,7 @@ function App(this: any) {
     const [key, setKey] = useState("");
     const [doReload, setDoReload]: [boolean, any] = useState(false);
     const [selectedDeckName, setSelectedDeckName]: [string | null, any] = useState(null);
+    const {ankiDbService} = useContext(ServiceContext) as any;
 
     useEffect(() => {
         console.log(selectedDeckName);
@@ -31,20 +33,27 @@ function App(this: any) {
         setSelectedDeckName(deckName);
     }
 
+    async function handleFilePicked(blob: any) {
+        // init anki db service (with context?)
+        await ankiDbService.initialize(blob);
+        // await
+        setDoReload(true);
+    }
+
     const NoDeckSelected = <>
         <Dashboard/>
         <h3>Load from Anki Desktop</h3>
         <div>
             <ButtonPrimary text="Load Anki" onClick={() => handleDoReload(true)}/>
             {doReload && <Loading/>}
-            <DeckSelection doReload={doReload}
-                           handleDoReload={handleDoReload}
-                           handleSelectDeckName={handleSelectDeckName}/>
         </div>
         <h3>Load from Google Drive</h3>
         <div>
-            <GoogleDriveHandler />
+            <GoogleDriveHandler handleFilePicked={handleFilePicked}/>
         </div>
+        <DeckSelection doReload={doReload}
+                       handleDoReload={handleDoReload}
+                       handleSelectDeckName={handleSelectDeckName}/>
     </>;
 
     const DeckSelected = <>

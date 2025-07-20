@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
 import Loading from "./Loading";
-import * as AnkiService from "../services/AnkiService";
 import { AnkiCardDto } from "../model/dto/AnkiCardDto";
 import AnkiCard from "./AnkiCard";
 import VocabWrapper from "./VocabWrapper";
@@ -11,12 +10,14 @@ import ArrowBack from "@mui/icons-material/ArrowBack";
 import { sanitizeAndClean } from "../services/AnkiCleaner";
 import { shuffleArray } from "../services/UtilService";
 import { KeydownContext } from "../App";
+import { ServiceContext } from "../index";
 
 export default function Deck(this: any, { deckName }: { deckName: string | null }) {
     const {key, setKey} = useContext(KeydownContext) as any;
     const [cards, setCards]: [AnkiCardDto[], any] = useState([]);
     const [selectedVocab, setSelectedVocab]: [Vocab | null, any] = useState(null);
     const [shuffleCards, setShuffleCards] = useState<boolean>(true);
+    const {ankiService} = useContext(ServiceContext) as any;
 
     const handleKeyDown = (key: string) => {
         if (key === "ArrowLeft") {
@@ -39,10 +40,10 @@ export default function Deck(this: any, { deckName }: { deckName: string | null 
 
         async function startFetching(deckName: string) {
             // fetch card ids
-            const cardIds: number[] = (await AnkiService.getCardsByDeckName(deckName) as any).result;
+            const cardIds: number[] = (await ankiService.getCardsByDeckName(deckName) as any).result;
 
             // fetch card infos
-            const response = await AnkiService.getCardsInfo(cardIds);
+            const response = await ankiService.getCardsInfo(cardIds);
             const cards = response.result as AnkiCardDto[];
 
             if (shuffleCards) {
