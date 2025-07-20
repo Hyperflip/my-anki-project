@@ -16,9 +16,7 @@ export const sanitizeAndClean = (inputString: string, removeKana: boolean = fals
     }
 };
 
-export const removeBracketsContent = (vocab: string) => {
-    vocab = vocab.replace('[', '');
-    vocab = vocab.replace(']', '');
-    // TODO: remove kana in brackets only
-    return vocab.replace(/[\u0250-\ue007]/g, '');
+export const removeBracketsContent = (text: string) => {
+    text = text.replace(/\[.*?\]/g, "");
+    return text.replace(/\s/g, "");
 };
