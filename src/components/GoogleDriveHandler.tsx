@@ -1,7 +1,6 @@
 import useDrivePicker from "react-google-drive-picker";
 import ButtonPrimary from "./ButtonPrimary";
 import { useEffect, useState } from "react";
-import { BlobReader, BlobWriter, ZipReader } from "@zip.js/zip.js";
 
 
 function GoogleDriveHandler({ handleFilePicked }: { handleFilePicked: (blob: any) => void }) {
@@ -36,10 +35,11 @@ function GoogleDriveHandler({ handleFilePicked }: { handleFilePicked: (blob: any
             developerKey: developerKey,
             viewId: "DOCS",
             // token: token, // pass oauth token in case you already have one
-            showUploadView: true,
-            showUploadFolders: true,
+            showUploadView: false,
+            showUploadFolders: false,
             supportDrives: true,
-            multiselect: true,
+            multiselect: false,
+            viewMimeTypes: "application/vnd.anki",
             // customViews: customViewsArray, // custom view
             callbackFunction: (data) => {
                 if (data.action === 'cancel') {
