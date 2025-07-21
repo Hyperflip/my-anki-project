@@ -1,8 +1,9 @@
 import axios, { AxiosResponse } from 'axios';
 import memoize from "memoizee";
+import { AnkiService } from "./AnkiService";
 
 
-export class AnkiDesktopService {
+export class AnkiDesktopService implements AnkiService {
     private url: string = process.env.REACT_APP_ANKICONNECT_URL!;
     private version: number = 6;
 
@@ -12,7 +13,7 @@ export class AnkiDesktopService {
                 action: "deckNames",
                 version: this.version
             });
-            return response.data;
+            return response.data.result;
         } catch (error) {
             console.error(`Error fetching deck names: ${error}`);
             throw error;
@@ -31,7 +32,7 @@ export class AnkiDesktopService {
 
     public getCardsByDeckName = async (deckName: string) => {
         try {
-            return (await this.memoizedFetchCardsByDeckName(deckName) as AxiosResponse).data;
+            return (await this.memoizedFetchCardsByDeckName(deckName) as AxiosResponse).data.result;
         } catch (error) {
             console.error(`Error fetching cards by deck name: ${deckName}`);
         }
@@ -49,7 +50,7 @@ export class AnkiDesktopService {
 
     public getCardsInfo = async (cardIds: number[]) => {
         try {
-            return (await this.memoizedFetchCardsInfo(cardIds) as AxiosResponse).data;
+            return (await this.memoizedFetchCardsInfo(cardIds) as AxiosResponse).data.result;
         } catch (error) {
             console.error(`Error fetching cards info: ${error}`);
         }

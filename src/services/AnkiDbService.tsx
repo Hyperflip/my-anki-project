@@ -1,11 +1,12 @@
-import { BlobReader, BlobWriter, FileEntry, ZipReader } from "@zip.js/zip.js";
+import { BlobReader, BlobWriter, ZipReader } from "@zip.js/zip.js";
 import { PathService } from "./PathService";
 import * as initSqlJs from "sql.js";
-import {ZstdInit, ZstdDec} from "@oneidentity/zstd-js/wasm/decompress";
+import {ZstdInit} from "@oneidentity/zstd-js/wasm/decompress";
 import { AnkiCardDto } from "../model/dto/AnkiCardDto";
 import * as AnkiCleaner from "./AnkiCleaner";
+import { AnkiService } from "./AnkiService";
 
-export class AnkiDbService {
+export class AnkiDbService implements AnkiService {
 
     private pathService: PathService;
 
@@ -32,18 +33,18 @@ export class AnkiDbService {
         this.db = db;
     }
 
-    public getDeckNames(): any {
+    public getDeckNames(): Promise<string[]> {
         const result = this.db.exec("SELECT name FROM decks");
         const values = result[0]["values"];
         const deckNames: string[] = values.map((val: any) => val[0]);
-        return Promise.resolve({ result: deckNames });
+        return Promise.resolve(deckNames);
     }
 
-    public getCardsByDeckName(deckName: string): any {
+    public getCardsByDeckName(deckName: string): Promise<number[]> {
         const result = this.db.exec(`SELECT c.id FROM decks d JOIN cards c ON c.did = d.id WHERE d.name = '${deckName}' COLLATE NOCASE`);
         const values = result[0]["values"];
         const cardIds: number[] = values.map((val: any) => val[0]);
-        return Promise.resolve({ result: cardIds });
+        return Promise.resolve(cardIds);
     }
 
     public getCardsInfo(cardIds: number[]) {
@@ -62,7 +63,7 @@ export class AnkiDbService {
             };
             result.push(card);
         }
-        return { result: result };
+        return Promise.resolve(result);
     }
 
     private async unzipAnki21bCollection(blob: any): Promise<Blob | undefined> {

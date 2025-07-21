@@ -14,7 +14,7 @@ export default function DeckSelection({ doReload, handleDoReload, handleSelectDe
                     setDeckNames([]);
                 }
                 const response = await ankiService.getDeckNames();
-                setDeckNames(response.result);
+                setDeckNames(response);
             }
             handleDoReload(false);
         }

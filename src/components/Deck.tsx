@@ -40,11 +40,11 @@ export default function Deck(this: any, { deckName }: { deckName: string | null 
 
         async function startFetching(deckName: string) {
             // fetch card ids
-            const cardIds: number[] = (await ankiService.getCardsByDeckName(deckName) as any).result;
+            const cardIds: number[] = (await ankiService.getCardsByDeckName(deckName) as any);
 
             // fetch card infos
             const response = await ankiService.getCardsInfo(cardIds);
-            const cards = response.result as AnkiCardDto[];
+            const cards = response as AnkiCardDto[];
 
             if (shuffleCards) {
                 shuffleArray(cards);

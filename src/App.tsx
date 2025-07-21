@@ -8,6 +8,8 @@ import Deck from "./components/Deck";
 import Dashboard from "./components/Dashboard";
 import GoogleDriveHandler from "./components/GoogleDriveHandler";
 import { ServiceContext } from "./index";
+import { AnkiDbService } from "./services/AnkiDbService";
+import { AnkiDesktopService } from "./services/AnkiDesktopService";
 
 export const KeydownContext = React.createContext({});
 
@@ -15,7 +17,7 @@ function App(this: any) {
     const [key, setKey] = useState("");
     const [doReload, setDoReload]: [boolean, any] = useState(false);
     const [selectedDeckName, setSelectedDeckName]: [string | null, any] = useState(null);
-    const {ankiDbService} = useContext(ServiceContext) as any;
+    const {ankiService} = useContext(ServiceContext) as any;
 
     useEffect(() => {
         console.log(selectedDeckName);
@@ -34,23 +36,33 @@ function App(this: any) {
     }
 
     async function handleFilePicked(blob: any) {
-        // init anki db service (with context?)
-        await ankiDbService.initialize(blob);
-        // await
+        await (ankiService as AnkiDbService).initialize(blob);
         setDoReload(true);
+    }
+
+    function isElectronEnv(): boolean {
+        return ankiService instanceof AnkiDesktopService;
     }
 
     const NoDeckSelected = <>
         <Dashboard/>
-        <h3>Load from Anki Desktop</h3>
-        <div>
-            <ButtonPrimary text="Load Anki" onClick={() => handleDoReload(true)}/>
-            {doReload && <Loading/>}
-        </div>
-        <h3>Load from Google Drive</h3>
-        <div>
-            <GoogleDriveHandler handleFilePicked={handleFilePicked}/>
-        </div>
+
+        {
+            isElectronEnv() ?
+                <>
+                    <h3>Load from Anki Desktop</h3>
+                    <div>
+                        <ButtonPrimary text="Load Anki" onClick={() => handleDoReload(true)}/>
+                        {doReload && <Loading/>}
+                    </div>
+                </> :
+                <>
+                    <h3>Load from Google Drive</h3>
+                    <div>
+                        <GoogleDriveHandler handleFilePicked={handleFilePicked}/>
+                    </div>
+                </>
+        }
         <DeckSelection doReload={doReload}
                        handleDoReload={handleDoReload}
                        handleSelectDeckName={handleSelectDeckName}/>

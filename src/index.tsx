@@ -15,16 +15,19 @@ export const ServiceContext = React.createContext({});
 
 const pathService: PathService = new PathService();
 const kanjiService: KanjiService = new KanjiService(pathService);
-const ankiDesktopService: AnkiDesktopService = new AnkiDesktopService();
-const ankiDbService: AnkiDbService = new AnkiDbService(pathService);
-const ankiService: AnkiService = new AnkiService(pathService.getIsElectronEnv(), ankiDesktopService, ankiDbService);
+let ankiService: AnkiService;
+if (pathService.getIsElectronEnv()) {
+    ankiService = new AnkiDesktopService();
+} else {
+    ankiService = new AnkiDbService(pathService);
+}
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
   <React.StrictMode>
-      <ServiceContext.Provider value={{pathService, kanjiService, ankiDbService, ankiService}}>
+      <ServiceContext.Provider value={{pathService, kanjiService, ankiService}}>
           <App />
       </ServiceContext.Provider>
   </React.StrictMode>
