@@ -1,11 +1,41 @@
 import { KanaKanji } from "../model/KanaKanji";
 import { PathService } from "./PathService";
+import { BlobReader, TextWriter, ZipReader } from "@zip.js/zip.js";
+
 
 export class KanjiService {
     pathService: PathService;
 
+    private kanjiPath: Map<string, string> = new Map<string, string>();
+
     constructor(pathService: PathService) {
         this.pathService = pathService;
+    }
+
+    async initialize() {
+        const kanjiZipped: Blob = await fetch(this.pathService.getResourcePath('/resources/kanji.zip'))
+            .then(async (res) => await res.blob());
+        await this.unzipKanjiBlob(kanjiZipped);
+        debugger;
+    }
+
+    private async unzipKanjiBlob(blob: any) {
+        // Create a ZipReader instance
+        const zipReader = new ZipReader(new BlobReader(blob));
+
+        // Get the entries in the zip file
+        const entries = await zipReader.getEntries();
+
+        for (const entry of entries) {
+            if (!entry.directory && entry.filename.endsWith('.svg')) {
+                const svgPath: string = await entry.getData(new TextWriter());
+                const unicode: string = entry.filename.split('/')[1].split('.')[0];
+                this.kanjiPath.set(unicode, svgPath);
+            }
+        }
+
+        // Close the ZipReader
+        await zipReader.close();
     }
 
     isKanji = (hexCode: number): boolean => {
@@ -53,14 +83,11 @@ export class KanjiService {
             const isKana = kanaIndices.includes(i);
             if (!isKanji && !isKana) { continue; }
 
-            const svgFilePath = this.pathService.getResourcePath(`/resources/kanji/${unicodes[i]}.svg`);
-            const svgPath = await fetch(svgFilePath)
-                .then(res => res.text());
             kanaKanji.push(<KanaKanji>{
                 hexCode: unicodes[i],
                 isKanji,
                 isKana,
-                svg: svgPath
+                svg: this.kanjiPath.get(unicodes[i])
             });
         }
         return kanaKanji;

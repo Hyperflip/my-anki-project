@@ -17,11 +17,14 @@ function App(this: any) {
     const [key, setKey] = useState("");
     const [doReload, setDoReload]: [boolean, any] = useState(false);
     const [selectedDeckName, setSelectedDeckName]: [string | null, any] = useState(null);
-    const {ankiService} = useContext(ServiceContext) as any;
+    const {ankiService, kanjiService} = useContext(ServiceContext) as any;
 
     useEffect(() => {
-        console.log(selectedDeckName);
-    }, [selectedDeckName]);
+        const fetchKanjiSvgs = async () => {
+            await kanjiService.initialize();
+        };
+        fetchKanjiSvgs();
+    }, []);
 
     function handleKeyDown(event: any) {
         setKey(event.key);
