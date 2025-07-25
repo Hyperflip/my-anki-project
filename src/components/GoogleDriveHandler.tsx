@@ -39,6 +39,7 @@ function GoogleDriveHandler({ handleFilePicked }: { handleFilePicked: (blob: any
             showUploadFolders: false,
             supportDrives: true,
             multiselect: false,
+            setOrigin: 'https://d27swq2t4esbmy.cloudfront.net/',
             viewMimeTypes: "application/vnd.anki",
             // customViews: customViewsArray, // custom view
             callbackFunction: (data) => {

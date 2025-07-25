@@ -27,7 +27,8 @@ function App(this: any) {
             await kanjiService.initialize();
             setIslLoading(isLoading - 1);
         };
-        fetchKanjiSvgs();
+        // TODO: re-enable
+        //fetchKanjiSvgs();
     }, []);
 
     function handleKeyDown(event: any) {
