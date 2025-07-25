@@ -10,6 +10,7 @@ import GoogleDriveHandler from "./components/GoogleDriveHandler";
 import { ServiceContext } from "./index";
 import { AnkiDbService } from "./services/AnkiDbService";
 import { AnkiDesktopService } from "./services/AnkiDesktopService";
+import BlockedLoading from "./components/BlockedLoading";
 
 export const KeydownContext = React.createContext({});
 
@@ -18,10 +19,13 @@ function App(this: any) {
     const [doReload, setDoReload]: [boolean, any] = useState(false);
     const [selectedDeckName, setSelectedDeckName]: [string | null, any] = useState(null);
     const {ankiService, kanjiService} = useContext(ServiceContext) as any;
+    const [isLoading, setIslLoading] = useState(0);
 
     useEffect(() => {
         const fetchKanjiSvgs = async () => {
+            setIslLoading(isLoading + 1);
             await kanjiService.initialize();
+            setIslLoading(isLoading - 1);
         };
         fetchKanjiSvgs();
     }, []);
@@ -48,6 +52,8 @@ function App(this: any) {
     }
 
     const NoDeckSelected = <>
+
+        { isLoading > 0 && <BlockedLoading/> }
         <Dashboard/>
 
         {

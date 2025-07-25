@@ -16,7 +16,6 @@ export class KanjiService {
         const kanjiZipped: Blob = await fetch(this.pathService.getResourcePath('/resources/kanji.zip'))
             .then(async (res) => await res.blob());
         await this.unzipKanjiBlob(kanjiZipped);
-        debugger;
     }
 
     private async unzipKanjiBlob(blob: any) {
