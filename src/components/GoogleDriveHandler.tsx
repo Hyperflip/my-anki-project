@@ -66,16 +66,15 @@ function GoogleDriveHandler({ handleFilePicked }: { handleFilePicked: (blob: any
     function gisLoaded() {
         const tokenClient = google.accounts.oauth2.initTokenClient({
             client_id: clientId,
-            scope: 'https://www.googleapis.com/auth/drive.file',
-            // eslint-disable-next-line @typescript-eslint/no-empty-function
-            callback: () => {}
+            scope: 'https://www.googleapis.com/auth/drive.readonly',
+            callback: () => null
         });
         setTokenClient(tokenClient);
         gisInited = true;
     }
 
     function createPicker() {
-        const showPicker = () => {
+        const showPicker = (accessToken: string) => {
             const picker = new google.picker.PickerBuilder()
                 .addView(google.picker.ViewId.DOCS)
                 .setOAuthToken(accessToken!)
@@ -91,7 +90,7 @@ function GoogleDriveHandler({ handleFilePicked }: { handleFilePicked: (blob: any
                 throw (response);
             }
             setAccessToken(response.access_token);
-            showPicker();
+            showPicker(response.access_token);
         };
 
         if (accessToken === null) {
