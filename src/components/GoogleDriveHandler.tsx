@@ -74,11 +74,17 @@ function GoogleDriveHandler({ handleFilePicked }: { handleFilePicked: (blob: any
         gisInited = true;
     }
 
-    function createPicker() {
-        const showPicker = () => {
+    function handleOpenPicker() {
+        tokenClient.callback = async (response: any) => {
+            if (response.error !== undefined) {
+                throw response;
+            }
+            setAccessToken(response.access_token);
+
+            // Move picker logic directly inside the callback
             const picker = new google.picker.PickerBuilder()
                 .addView(google.picker.ViewId.DOCS)
-                .setOAuthToken(accessToken!)
+                .setOAuthToken(response.access_token)
                 .setDeveloperKey(developerKey)
                 .setCallback((data) => setFile(data))
                 .setAppId(appId)
@@ -86,23 +92,8 @@ function GoogleDriveHandler({ handleFilePicked }: { handleFilePicked: (blob: any
             picker.setVisible(true);
         };
 
-        tokenClient.callback = async (response: any) => {
-            if (response.error !== undefined) {
-                throw (response);
-            }
-            setAccessToken(response.access_token);
-            showPicker();
-        };
-
-        if (accessToken === null) {
-            tokenClient.requestAccessToken({prompt: 'consent'});
-        } else {
-            tokenClient.requestAccessToken({prompt: ''});
-        }
-    }
-
-    function handleOpenPicker() {
-        createPicker();
+        // Trigger the token request during user interaction
+        tokenClient.requestAccessToken({ prompt: 'consent' });
     }
 
     return (<div>
