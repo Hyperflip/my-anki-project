@@ -27,6 +27,7 @@ jobs:
         env:
           REACT_APP_OAUTH2_CLIENT_ID: ${{ secrets.REACT_APP_OAUTH2_CLIENT_ID }}
           REACT_APP_API_KEY: ${{ secrets.REACT_APP_API_KEY }}
+          REACT_APP_APP_ID: ${{ secrets.REACT_APP_APP_ID }}
 
       - name: Upload to S3
         uses: jakejarvis/s3-sync-action@master
