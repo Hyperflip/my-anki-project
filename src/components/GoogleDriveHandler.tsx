@@ -79,7 +79,11 @@ function GoogleDriveHandler({ handleFilePicked }: { handleFilePicked: (blob: any
                 .addView(google.picker.ViewId.DOCS)
                 .setOAuthToken(accessToken!)
                 .setDeveloperKey(developerKey)
-                .setCallback((data) => setFile(data))
+                .setCallback((data) => {
+                    if (data.docs) {
+                        setFile(data.docs[0]);
+                    }
+                })
                 .setAppId(appId)
                 .build();
             picker.setVisible(true);

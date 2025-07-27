@@ -1,40 +1,24 @@
 import { KanaKanji } from "../model/KanaKanji";
 import { PathService } from "./PathService";
-import { BlobReader, TextWriter, ZipReader } from "@zip.js/zip.js";
+import { BlobReader, TextReader, TextWriter, ZipReader } from "@zip.js/zip.js";
 
 
 export class KanjiService {
     pathService: PathService;
 
-    private kanjiPath: Map<string, string> = new Map<string, string>();
+    private kanjiPath: any;
 
     constructor(pathService: PathService) {
         this.pathService = pathService;
     }
 
     async initialize() {
-        const kanjiZipped: Blob = await fetch(this.pathService.getResourcePath('/resources/kanji.zip'))
-            .then(async (res) => await res.blob());
-        await this.unzipKanjiBlob(kanjiZipped);
-    }
-
-    private async unzipKanjiBlob(blob: any) {
-        // Create a ZipReader instance
-        const zipReader = new ZipReader(new BlobReader(blob));
-
-        // Get the entries in the zip file
-        const entries = await zipReader.getEntries();
-
-        for (const entry of entries) {
-            if (!entry.directory && entry.filename.endsWith('.svg')) {
-                const svgPath: string = await entry.getData(new TextWriter());
-                const unicode: string = entry.filename.split('/')[1].split('.')[0];
-                this.kanjiPath.set(unicode, svgPath);
-            }
-        }
-
-        // Close the ZipReader
-        await zipReader.close();
+        console.time('kanji fetch');
+        await fetch(this.pathService.getResourcePath('/resources/kanji-svgs.json'))
+            .then(async res => {
+                this.kanjiPath = await res.json();
+                console.timeEnd('kanji fetch');
+            });
     }
 
     isKanji = (hexCode: number): boolean => {
@@ -86,7 +70,7 @@ export class KanjiService {
                 hexCode: unicodes[i],
                 isKanji,
                 isKana,
-                svg: this.kanjiPath.get(unicodes[i])
+                svg: this.kanjiPath[unicodes[i]]
             });
         }
         return kanaKanji;
