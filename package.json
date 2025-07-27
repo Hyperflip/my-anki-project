@@ -46,7 +46,9 @@
     "start": "react-app-rewired start",
     "electron": "electron .",
     "package": "electron-packager .",
-    "build": "CI=false && react-app-rewired build",
+    "build-github-deploy": "CI=false && react-app-rewired build",
+    "build-local": "react-app-rewired build",
+    "build-local-deploy": "",
     "test": "react-app-rewired test",
     "eject": "react-app-rewired eject"
   },
